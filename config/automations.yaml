@@ -1,0 +1,75 @@
+- id: '1779799375322'
+  alias: Reolink Front Door Recording
+  description: ''
+  triggers:
+  - type: motion
+    device_id: 6bcde1de297aa426a3504c368432f790
+    entity_id: dd5b387f08c7dd7ac060c49731eacea5
+    domain: binary_sensor
+    trigger: device
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  conditions: []
+  actions:
+  - action: camera_record_services.camera_start_recording
+    data:
+      entity_id: camera.front_door_profile000_mainstream
+      filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_front-door.mp4
+      duration: 3600
+      lookback: 5
+      stop_state_id: binary_sensor.front_door_person_detection_delayed
+      stop_state_value: 'off'
+      extend_running_task: true
+  mode: single
+- id: '2779799375322'
+  alias: Reolink Saloon Recording
+  description: ''
+  triggers:
+  - type: motion
+    device_id: 4808c5ba2ada5a5dcb4a6b2527a18107
+    entity_id: 1d9bbc1ebbff06a6c2737949e172c5e5
+    domain: binary_sensor
+    trigger: device
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  conditions: []
+  actions:
+  - action: camera_record_services.camera_start_recording
+    data:
+      entity_id: camera.saloon_profile000_mainstream
+      filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_saloon.mp4
+      duration: 3600
+      lookback: 5
+      stop_state_id: binary_sensor.saloon_person_detection_delayed
+      stop_state_value: 'off'
+      extend_running_task: true
+  mode: single
+- id: '3779799375322'
+  alias: Reolink Bedroom Recording
+  description: ''
+  triggers:
+  - type: motion
+    device_id: a4ce4f343a1dd2b9a4715274ea71b1f5
+    entity_id: 2b03c56ae87724eab58a5cda7a49fbb0
+    domain: binary_sensor
+    trigger: device
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  conditions: []
+  actions:
+  - action: camera_record_services.camera_start_recording
+    data:
+      entity_id: camera.bedroom_profile000_mainstream
+      filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_bedroom.mp4
+      duration: 3600
+      lookback: 5
+      stop_state_id: binary_sensor.bedroom_person_detection_delayed
+      stop_state_value: 'off'
+      extend_running_task: true
+  mode: single

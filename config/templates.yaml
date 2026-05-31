@@ -1,0 +1,21 @@
+- binary_sensor:
+  - name: "Front Door Person Detection Delayed"
+    unique_id: front_door_person_detection_delayed
+    device_class: motion
+    state: "{{ is_state('binary_sensor.front_door_person_detection', 'on') }}"
+    delay_off:
+      seconds: 10
+- binary_sensor:
+  - name: "Saloon Person Detection Delayed"
+    unique_id: saloon_person_detection_delayed
+    device_class: motion
+    state: "{{ is_state('binary_sensor.saloon_person_detection', 'on') }}"
+    delay_off:
+      seconds: 10
+- binary_sensor:
+  - name: "Bedroom Person Detection Delayed"
+    unique_id: bedroom_person_detection_delayed
+    device_class: motion
+    state: "{{ is_state('binary_sensor.bedroom_person_detection', 'on') }}"
+    delay_off:
+      seconds: 10
