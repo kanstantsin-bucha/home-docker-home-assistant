@@ -13,16 +13,45 @@
       seconds: 0
   conditions: []
   actions:
-  - action: camera_record_services.camera_start_recording
+  - action: telegram_bot.send_message
+    target:
+      entity_id: notify.skyline_home_kanstantsin
     data:
-      entity_id: camera.front_door_profile000_mainstream
-      filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_front-door.mp4
-      duration: 3600
-      lookback: 5
-      stop_state_id: binary_sensor.front_door_person_detection_delayed
-      stop_state_value: 'off'
-      extend_running_task: true
-  mode: single
+      message: 'Recording started: Front Door'
+      chat_id: '279076735'
+  - parallel:
+    - action: camera_record_services.camera_start_recording
+      data:
+        entity_id: camera.front_door_profile000_mainstream
+        filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_front-door.mp4
+        duration: 3600
+        lookback: 5
+        stop_state_id: binary_sensor.front_door_person_detection_delayed
+        stop_state_value: 'off'
+        extend_running_task: true
+    - repeat:
+        while:
+        - condition: state
+          entity_id: binary_sensor.front_door_person_detection_delayed
+          state: 'on'
+        sequence:
+        - action: camera.snapshot
+          data:
+            filename: /config/front_door_snap.jpg
+          target:
+            entity_id: camera.front_door_profile000_mainstream
+        - action: telegram_bot.send_photo
+          target:
+            entity_id: notify.skyline_home_kanstantsin
+          data:
+            file: /config/front_door_snap.jpg
+            chat_id: '279076735'
+            entity_id:
+            - notify.skyline_home_kanstantsin
+            caption: front door
+        - delay:
+            seconds: 5
+  mode: restart
 - id: '2779799375322'
   alias: Reolink Saloon Recording
   description: ''
@@ -38,16 +67,45 @@
       seconds: 0
   conditions: []
   actions:
-  - action: camera_record_services.camera_start_recording
+  - action: telegram_bot.send_message
+    target:
+      entity_id: notify.skyline_home_kanstantsin
     data:
-      entity_id: camera.saloon_profile000_mainstream
-      filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_saloon.mp4
-      duration: 3600
-      lookback: 5
-      stop_state_id: binary_sensor.saloon_person_detection_delayed
-      stop_state_value: 'off'
-      extend_running_task: true
-  mode: single
+      message: 'Recording started: Saloon'
+      chat_id: '279076735'
+  - parallel:
+    - action: camera_record_services.camera_start_recording
+      data:
+        entity_id: camera.saloon_profile000_mainstream
+        filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_saloon.mp4
+        duration: 3600
+        lookback: 5
+        stop_state_id: binary_sensor.saloon_person_detection_delayed
+        stop_state_value: 'off'
+        extend_running_task: true
+    - repeat:
+        while:
+        - condition: state
+          entity_id: binary_sensor.saloon_person_detection_delayed
+          state: 'on'
+        sequence:
+        - action: camera.snapshot
+          data:
+            filename: /config/saloon_snap.jpg
+          target:
+            entity_id: camera.saloon_profile000_mainstream
+        - action: telegram_bot.send_photo
+          target:
+            entity_id: notify.skyline_home_kanstantsin
+          data:
+            file: /config/saloon_snap.jpg
+            chat_id: '279076735'
+            entity_id:
+            - notify.skyline_home_kanstantsin
+            caption: saloon
+        - delay:
+            seconds: 5
+  mode: restart
 - id: '3779799375322'
   alias: Reolink Bedroom Recording
   description: ''
@@ -63,13 +121,101 @@
       seconds: 0
   conditions: []
   actions:
-  - action: camera_record_services.camera_start_recording
+  - action: telegram_bot.send_message
+    target:
+      entity_id: notify.skyline_home_kanstantsin
     data:
-      entity_id: camera.bedroom_profile000_mainstream
-      filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_bedroom.mp4
-      duration: 3600
-      lookback: 5
-      stop_state_id: binary_sensor.bedroom_person_detection_delayed
-      stop_state_value: 'off'
-      extend_running_task: true
+      message: 'Recording started: Bedroom'
+      chat_id: '279076735'
+  - parallel:
+    - action: camera_record_services.camera_start_recording
+      data:
+        entity_id: camera.bedroom_profile000_mainstream
+        filename: /media/cam/{{ now().strftime('%Y%m%d_%H-%M-%S') }}_bedroom.mp4
+        duration: 3600
+        lookback: 5
+        stop_state_id: binary_sensor.bedroom_person_detection_delayed
+        stop_state_value: 'off'
+        extend_running_task: true
+    - repeat:
+        while:
+        - condition: state
+          entity_id: binary_sensor.bedroom_person_detection_delayed
+          state: 'on'
+        sequence:
+        - action: camera.snapshot
+          data:
+            filename: /config/bedroom_snap.jpg
+          target:
+            entity_id: camera.bedroom_profile000_mainstream
+        - action: telegram_bot.send_photo
+          target:
+            entity_id: notify.skyline_home_kanstantsin
+          data:
+            file: /config/bedroom_snap.jpg
+            chat_id: '279076735'
+            entity_id:
+            - notify.skyline_home_kanstantsin
+            caption: bedroom
+        - delay:
+            seconds: 5
+  mode: restart
+- id: '1779799375323'
+  alias: Reolink Front Door Recording Stopped
+  description: ''
+  triggers:
+  - platform: state
+    entity_id: binary_sensor.front_door_person_detection_delayed
+    to: 'off'
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    target:
+      entity_id: notify.skyline_home_kanstantsin
+    data:
+      message: 'Recording stopped: Front Door'
+      chat_id: '279076735'
+  mode: single
+- id: '2779799375323'
+  alias: Reolink Saloon Recording Stopped
+  description: ''
+  triggers:
+  - platform: state
+    entity_id: binary_sensor.saloon_person_detection_delayed
+    to: 'off'
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    target:
+      entity_id: notify.skyline_home_kanstantsin
+    data:
+      message: 'Recording stopped: Saloon'
+      chat_id: '279076735'
+  mode: single
+- id: '3779799375323'
+  alias: Reolink Bedroom Recording Stopped
+  description: ''
+  triggers:
+  - platform: state
+    entity_id: binary_sensor.bedroom_person_detection_delayed
+    to: 'off'
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    target:
+      entity_id: notify.skyline_home_kanstantsin
+    data:
+      message: 'Recording stopped: Bedroom'
+      chat_id: '279076735'
+- id: '1780785372930'
+  alias: Cleanup Old Video
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: '1'
+  conditions: []
+  actions:
+  - action: shell_command.delete_old_recordings
+    metadata: {}
+    data: {}
   mode: single

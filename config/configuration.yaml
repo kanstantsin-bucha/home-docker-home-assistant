@@ -12,4 +12,8 @@ template: !include templates.yaml
 
 shell_command:
   delete_old_recordings: "echo \"--- $(date) Reolink ---\" >> /media/logs/ha_video_cleanup.log && find /media/cam -name '*.mp4' -mmin +1440 -delete -print >> /media/logs/ha_video_cleanup.log 2>&1"
-  delete_old_xiaomi_recordings: "echo \"--- $(date) Xiaomi ---\" >> /media/logs/ha_video_cleanup.log && find /media/XiaomiCamera_00_B8888087287A -name '*.mp4' -mmin +1440 -delete -print >> /media/logs/ha_video_cleanup.log 2>&1"
+
+homeassistant:
+  allowlist_external_dirs:
+    - /tmp
+    - /config
