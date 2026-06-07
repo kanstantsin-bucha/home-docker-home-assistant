@@ -12,6 +12,9 @@ template: !include templates.yaml
 
 shell_command:
   delete_old_recordings: "echo \"--- $(date) Reolink ---\" >> /media/logs/ha_video_cleanup.log && find /media/cam -name '*.mp4' -mmin +1440 -delete -print >> /media/logs/ha_video_cleanup.log 2>&1"
+  delete_front_door_snap: "rm -f /config/front_door_snap.jpg"
+  delete_saloon_snap: "rm -f /config/saloon_snap.jpg"
+  delete_bedroom_snap: "rm -f /config/bedroom_snap.jpg"
 
 homeassistant:
   allowlist_external_dirs:

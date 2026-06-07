@@ -8,10 +8,11 @@
   conditions: []
   actions:
   - action: telegram_bot.send_message
-    target:
-      entity_id: notify.skyline_home_kanstantsin
     data:
       message: 'Recording started: Front Door'
+      entity_id:
+      - notify.skyline_home_kanstantsin
+      - notify.skyline_home_aleksandr
   - parallel:
     - action: camera_record_services.camera_start_recording
       data:
@@ -32,18 +33,18 @@
           data:
             filename: /config/front_door_snap.jpg
           target:
-            entity_id: camera.front_door_fluent
+            entity_id: camera.front_door_snapshots_clear
         - action: telegram_bot.send_photo
-          target:
-            entity_id: notify.skyline_home_kanstantsin
           data:
             file: /config/front_door_snap.jpg
             entity_id:
             - notify.skyline_home_kanstantsin
+            - notify.skyline_home_aleksandr
             caption: front door
+        - action: shell_command.delete_front_door_snap
         - delay:
             seconds: 5
-  mode: restart
+  mode: single
 - id: '2779799375322'
   alias: Reolink Saloon Recording
   description: ''
@@ -54,10 +55,11 @@
   conditions: []
   actions:
   - action: telegram_bot.send_message
-    target:
-      entity_id: notify.skyline_home_kanstantsin
     data:
       message: 'Recording started: Saloon'
+      entity_id:
+      - notify.skyline_home_kanstantsin
+      - notify.skyline_home_aleksandr
   - parallel:
     - action: camera_record_services.camera_start_recording
       data:
@@ -78,18 +80,18 @@
           data:
             filename: /config/saloon_snap.jpg
           target:
-            entity_id: camera.saloon_fluent
+            entity_id: camera.saloon_snapshots_clear
         - action: telegram_bot.send_photo
-          target:
-            entity_id: notify.skyline_home_kanstantsin
           data:
             file: /config/saloon_snap.jpg
             entity_id:
             - notify.skyline_home_kanstantsin
+            - notify.skyline_home_aleksandr
             caption: saloon
+        - action: shell_command.delete_saloon_snap
         - delay:
             seconds: 5
-  mode: restart
+  mode: single
 - id: '3779799375322'
   alias: Reolink Bedroom Recording
   description: ''
@@ -100,10 +102,11 @@
   conditions: []
   actions:
   - action: telegram_bot.send_message
-    target:
-      entity_id: notify.skyline_home_kanstantsin
     data:
       message: 'Recording started: Bedroom'
+      entity_id:
+      - notify.skyline_home_kanstantsin
+      - notify.skyline_home_aleksandr
   - parallel:
     - action: camera_record_services.camera_start_recording
       data:
@@ -124,18 +127,18 @@
           data:
             filename: /config/bedroom_snap.jpg
           target:
-            entity_id: camera.bedroom_fluent
+            entity_id: camera.bedroom_snapshots_clear
         - action: telegram_bot.send_photo
-          target:
-            entity_id: notify.skyline_home_kanstantsin
           data:
             file: /config/bedroom_snap.jpg
             entity_id:
             - notify.skyline_home_kanstantsin
+            - notify.skyline_home_aleksandr
             caption: bedroom
+        - action: shell_command.delete_bedroom_snap
         - delay:
             seconds: 5
-  mode: restart
+  mode: single
 - id: '1779799375323'
   alias: Reolink Front Door Recording Stopped
   description: ''
@@ -146,10 +149,11 @@
   conditions: []
   actions:
   - action: telegram_bot.send_message
-    target:
-      entity_id: notify.skyline_home_kanstantsin
     data:
       message: 'Recording stopped: Front Door'
+      entity_id:
+      - notify.skyline_home_kanstantsin
+      - notify.skyline_home_aleksandr
   mode: single
 - id: '2779799375323'
   alias: Reolink Saloon Recording Stopped
@@ -161,10 +165,11 @@
   conditions: []
   actions:
   - action: telegram_bot.send_message
-    target:
-      entity_id: notify.skyline_home_kanstantsin
     data:
       message: 'Recording stopped: Saloon'
+      entity_id:
+      - notify.skyline_home_kanstantsin
+      - notify.skyline_home_aleksandr
   mode: single
 - id: '3779799375323'
   alias: Reolink Bedroom Recording Stopped
@@ -176,10 +181,12 @@
   conditions: []
   actions:
   - action: telegram_bot.send_message
-    target:
-      entity_id: notify.skyline_home_kanstantsin
     data:
       message: 'Recording stopped: Bedroom'
+      entity_id:
+      - notify.skyline_home_kanstantsin
+      - notify.skyline_home_aleksandr
+  mode: single
 - id: '1780785372930'
   alias: Cleanup Old Video
   description: ''
